@@ -1,0 +1,6 @@
+@CodeGames_HostAddress = http://localhost:5139
+
+GET {{CodeGames_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

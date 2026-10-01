@@ -1,0 +1,17 @@
+# Tajne i lokalna konfiguracija
+**/appsettings.Development.json
+**/.env
+**/secrets.json
+
+# Build
+**/bin/
+**/obj/
+
+# Frontend
+**/node_modules/
+**/dist/
+
+# Test izvještaji
+**/playwright-report/
+**/test-results/
+**/blob-report/
