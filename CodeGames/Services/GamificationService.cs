@@ -78,6 +78,17 @@ public class GamificationService
             return 0;
         }
 
+        if (input.AwardFullPoints)
+        {
+            if (!input.IsCorrect)
+            {
+                return 0;
+            }
+
+            var extra = input.BonusPoints > 0 ? input.BonusPoints : 0;
+            return Math.Max(0, input.ChallengePoints) + extra;
+        }
+
         var fraction = Clamp(input.ScoreFraction);
         if (!input.IsCorrect)
         {

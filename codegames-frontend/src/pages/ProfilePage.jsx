@@ -297,8 +297,47 @@ export default function ProfilePage() {
         <div id="profile-panel-awards" role="tabpanel" aria-labelledby="profile-tab-awards">
           <AwardGroup title="Razine" awards={levelAwards} />
           <AwardGroup title="Niz dana" awards={streakAwards} />
+          <ChallengerCard challenger={stats.challenger} />
         </div>
       ) : null}
+    </section>
+  )
+}
+
+function ChallengerCard({ challenger }) {
+  if (!challenger) {
+    return null
+  }
+
+  const step = challenger.step || 10
+  const progress = challenger.progress ?? 0
+  const width = Math.min(100, Math.round((progress / step) * 100))
+  const earned = (challenger.tier ?? 0) > 0
+
+  return (
+    <section className="stat-block">
+      <h2>Challenger</h2>
+      <article className={earned ? 'award-card is-earned' : 'award-card is-locked'}>
+        <div>
+          <p className="award-title">
+            {earned ? `Challenger ${challenger.tierLabel}` : 'Challenger'}
+          </p>
+          <p className="trace-quiet">
+            Riješeno dnevnih zadataka: {challenger.totalCompleted ?? 0}
+          </p>
+          <div
+            className="challenger-track"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={step}
+            aria-valuenow={progress}
+            aria-label="Progres do sljedećeg Challenger tiera"
+          >
+            <span style={{ width: `${width}%` }} />
+          </div>
+          <p className="trace-quiet">{progress}/{step} do sljedećih 10</p>
+        </div>
+      </article>
     </section>
   )
 }

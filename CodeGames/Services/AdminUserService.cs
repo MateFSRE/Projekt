@@ -109,6 +109,8 @@ public class AdminUserService
         await EnsureAdminRemainsAsync(user, UserRole.User, deleting: true, cancellationToken);
 
         await using var transaction = await _db.Database.BeginTransactionAsync(cancellationToken);
+        await _db.DailyCompletions.Where(completion => completion.UserId == user.Id).ExecuteDeleteAsync(cancellationToken);
+        await _db.UserBadges.Where(badge => badge.UserId == user.Id).ExecuteDeleteAsync(cancellationToken);
         await _db.Attempts.Where(attempt => attempt.UserId == user.Id).ExecuteDeleteAsync(cancellationToken);
         _db.Users.Remove(user);
         await _db.SaveChangesAsync(cancellationToken);

@@ -1,10 +1,14 @@
 using System.Text.Json;
+using CodeGames.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CodeGames.Tests;
 
 public sealed class ApiFactory : Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Program>
 {
     public const string AdminPassword = "AdminTest123!";
+
+    public FixedTimeProvider Clock { get; } = new(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
 
     static ApiFactory()
     {
@@ -20,6 +24,20 @@ public sealed class ApiFactory : Microsoft.AspNetCore.Mvc.Testing.WebApplication
         {
             HandleCookies = true,
             AllowAutoRedirect = false
+        });
+    }
+
+    protected override void ConfigureWebHost(Microsoft.AspNetCore.Hosting.IWebHostBuilder builder)
+    {
+        builder.ConfigureServices(services =>
+        {
+            var existing = services.SingleOrDefault(service => service.ServiceType == typeof(TimeProvider));
+            if (existing is not null)
+            {
+                services.Remove(existing);
+            }
+
+            services.AddSingleton<TimeProvider>(Clock);
         });
     }
 

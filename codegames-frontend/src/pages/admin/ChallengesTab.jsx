@@ -28,6 +28,7 @@ const emptyChallenge = {
   correctAnswer: '',
   configJson: '',
   isActive: true,
+  isInDailyPool: false,
   options: [
     { text: '', isCorrect: true },
     { text: '', isCorrect: false },
@@ -43,6 +44,7 @@ export default function ChallengesTab() {
   const [editing, setEditing] = useState(null)
   const [jsonError, setJsonError] = useState('')
   const [serverError, setServerError] = useState('')
+  const [pool, setPool] = useState(null)
 
   const form = useForm({ defaultValues: emptyChallenge })
   const options = useFieldArray({ control: form.control, name: 'options' })
@@ -51,10 +53,14 @@ export default function ChallengesTab() {
   async function load(nextPage = page, nextType = typeFilter) {
     setLoading(true)
     try {
-      const response = await api.get('/admin/challenges', {
-        params: { page: nextPage, pageSize: 8, type: nextType || undefined },
-      })
-      setResult(response.data)
+      const [list, daily] = await Promise.all([
+        api.get('/admin/challenges', {
+          params: { page: nextPage, pageSize: 8, type: nextType || undefined },
+        }),
+        api.get('/admin/daily'),
+      ])
+      setResult(list.data)
+      setPool(daily.data)
     } catch (error) {
       toast(error.message, 'bad')
     } finally {
@@ -92,6 +98,7 @@ export default function ChallengesTab() {
         correctAnswer: challenge.correctAnswer ?? '',
         configJson: challenge.configJson ?? '',
         isActive: challenge.isActive,
+        isInDailyPool: challenge.isInDailyPool,
         options: challenge.options?.length
           ? challenge.options.map((option) => ({ text: option.text, isCorrect: option.isCorrect }))
           : emptyChallenge.options,
@@ -146,6 +153,7 @@ export default function ChallengesTab() {
       points: Number(values.points),
       explanation: values.explanation,
       isActive: Boolean(values.isActive),
+      isInDailyPool: Boolean(values.isInDailyPool),
       codeSnippet: values.codeSnippet,
       question: values.question,
       correctAnswer: values.correctAnswer,
@@ -236,6 +244,18 @@ export default function ChallengesTab() {
         <button type="button" className="button" onClick={openCreate}>Novi zadatak</button>
       </div>
 
+      {pool ? (
+        <div className={pool.poolCount < pool.poolTarget ? 'feedback feedback-bad' : 'feedback feedback-ok'}>
+          <p>Bazen: {pool.poolCount}/{pool.poolTarget}</p>
+          {pool.message ? <p>{pool.message}</p> : null}
+          {pool.selection?.length > 0 ? (
+            <p>
+              Današnji odabir: {pool.selection.map((slot) => slot.title).join(', ')}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
       {loading ? <p role="status">Učitavanje...</p> : null}
       {!loading && items.length === 0 ? <p className="empty">Nema zadataka za ovaj filter.</p> : null}
 
@@ -247,6 +267,7 @@ export default function ChallengesTab() {
             <span>{item.language} · težina {item.difficulty} · {item.points}</span>
             <span className={item.isActive ? 'attempt-ok' : 'attempt-bad'}>
               {item.isActive ? 'Aktivan' : 'Neaktivan'}
+              {item.isInDailyPool ? ' · bazen' : ''}
             </span>
             <span className="admin-actions">
               <button type="button" onClick={() => openEdit(item.id)}>Uredi</button>
@@ -310,6 +331,10 @@ export default function ChallengesTab() {
           <label className="check-row">
             <input type="checkbox" {...form.register('isActive')} />
             Aktivan
+          </label>
+          <label className="check-row">
+            <input type="checkbox" {...form.register('isInDailyPool')} />
+            U bazenu dnevnih izazova
           </label>
 
           {!configMode ? (

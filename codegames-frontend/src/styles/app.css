@@ -1520,3 +1520,50 @@ button:disabled {
     align-items: start;
   }
 }
+
+.daily-countdown,
+.daily-progress {
+  margin: 0.25rem 0 0.75rem;
+}
+
+.daily-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.daily-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem;
+  border: 1px solid #d5dde6;
+  border-radius: 0.6rem;
+  background: #fff;
+}
+
+.daily-card.is-done {
+  border-color: #2f8f4e;
+}
+
+.challenger-track {
+  height: 0.55rem;
+  margin: 0.45rem 0;
+  border-radius: 999px;
+  background: #e4eaf0;
+  overflow: hidden;
+}
+
+.challenger-track span {
+  display: block;
+  height: 100%;
+  background: #1f7a4d;
+}
+
+@media (min-width: 800px) {
+  .daily-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

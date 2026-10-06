@@ -45,7 +45,7 @@ public class ProfileService
 
         var solved = await _db.Attempts
             .AsNoTracking()
-            .Where(attempt => attempt.UserId == userId && attempt.IsCorrect)
+            .Where(attempt => attempt.UserId == userId && attempt.IsCorrect && !attempt.IsDaily)
             .Select(attempt => new { attempt.ChallengeId, attempt.Challenge.Type })
             .Distinct()
             .ToListAsync(cancellationToken);
@@ -126,6 +126,9 @@ public class ProfileService
         var correctPercent = attemptCount == 0
             ? 0d
             : Math.Round(correctCount * 100d / attemptCount, 1, MidpointRounding.AwayFromZero);
+        var dailyCompleted = await _db.DailyCompletions.CountAsync(
+            completion => completion.UserId == userId,
+            cancellationToken);
 
         return new ProfileStatsDto
         {
@@ -134,6 +137,7 @@ public class ProfileService
             FavoriteType = favorite?.Type,
             FavoritePlays = favorite?.Plays ?? 0,
             Awards = AwardCatalog.ProfileAwards(level, user.BestStreak),
+            Challenger = ChallengerRules.Describe(dailyCompleted),
             Level = level,
             ProgressPercent = GamificationService.ProgressPercent(user.Xp),
             TotalPoints = user.Xp,

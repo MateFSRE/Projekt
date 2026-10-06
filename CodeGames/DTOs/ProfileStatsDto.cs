@@ -14,6 +14,8 @@ public class ProfileStatsDto
 
     public List<AwardDto> Awards { get; set; } = [];
 
+    public ChallengerProgressDto Challenger { get; set; } = new();
+
     public int Level { get; set; }
 
     public int ProgressPercent { get; set; }

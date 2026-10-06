@@ -47,7 +47,8 @@ public class AdminChallengeService
                 Difficulty = challenge.Difficulty,
                 Title = challenge.Title,
                 Points = challenge.Points,
-                IsActive = challenge.IsActive
+                IsActive = challenge.IsActive,
+                IsInDailyPool = challenge.IsInDailyPool
             })
             .ToListAsync(cancellationToken);
 
@@ -134,6 +135,8 @@ public class AdminChallengeService
                 "Zadatak ima pokušaje. Deaktiviraj ga umjesto brisanja.");
         }
 
+        await _db.DailySelections.Where(selection => selection.ChallengeId == id).ExecuteDeleteAsync(cancellationToken);
+
         _db.Challenges.Remove(challenge);
         await _db.SaveChangesAsync(cancellationToken);
     }
@@ -153,6 +156,7 @@ public class AdminChallengeService
         challenge.Explanation = dto.Explanation.Trim();
         challenge.Points = dto.Points;
         challenge.IsActive = dto.IsActive;
+        challenge.IsInDailyPool = dto.IsInDailyPool;
         challenge.ConfigJson = string.IsNullOrWhiteSpace(dto.ConfigJson) ? null : dto.ConfigJson.Trim();
 
         var correctOption = dto.Options.FirstOrDefault(option => option.IsCorrect)?.Text;
@@ -270,6 +274,7 @@ public class AdminChallengeService
             ConfigJson = challenge.ConfigJson,
             Points = challenge.Points,
             IsActive = challenge.IsActive,
+            IsInDailyPool = challenge.IsInDailyPool,
             Options = challenge.Options
                 .OrderBy(option => option.Id)
                 .Select(option => new AdminOptionDto

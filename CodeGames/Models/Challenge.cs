@@ -27,6 +27,9 @@ public class Challenge
 
     public bool IsActive { get; set; }
 
+    // Ulazi u nasumični odabir od 3 dnevna zadatka. Nije isto što i IsActive.
+    public bool IsInDailyPool { get; set; }
+
     // Jedan zadatak ima više opcija kod odabira i ispravka greške.
     public ICollection<ChallengeOption> Options { get; set; } = new List<ChallengeOption>();
 

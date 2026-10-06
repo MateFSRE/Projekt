@@ -18,12 +18,21 @@ public class AppDbContext : DbContext
 
     public DbSet<Attempt> Attempts => Set<Attempt>();
 
+    public DbSet<UserBadge> UserBadges => Set<UserBadge>();
+
+    public DbSet<DailySelection> DailySelections => Set<DailySelection>();
+
+    public DbSet<DailyCompletion> DailyCompletions => Set<DailyCompletion>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ConfigureUser(modelBuilder);
         ConfigureChallenge(modelBuilder);
         ConfigureChallengeOption(modelBuilder);
         ConfigureAttempt(modelBuilder);
+        ConfigureUserBadge(modelBuilder);
+        ConfigureDailySelection(modelBuilder);
+        ConfigureDailyCompletion(modelBuilder);
         ChallengeSeed.Apply(modelBuilder);
     }
 
@@ -98,5 +107,61 @@ public class AppDbContext : DbContext
         entity.Property(attempt => attempt.ScoreFraction).IsRequired();
         entity.Property(attempt => attempt.CreatedAt).IsRequired();
         entity.HasIndex(attempt => attempt.UserId);
+    }
+
+    private static void ConfigureUserBadge(ModelBuilder modelBuilder)
+    {
+        var entity = modelBuilder.Entity<UserBadge>();
+
+        entity.ToTable("UserBadges");
+        entity.Property(badge => badge.BadgeKey).HasMaxLength(40).IsRequired();
+        entity.Property(badge => badge.AwardedAt).IsRequired();
+        entity.HasIndex(badge => new { badge.UserId, badge.BadgeKey }).IsUnique();
+
+        entity.HasOne(badge => badge.User)
+            .WithMany()
+            .HasForeignKey(badge => badge.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+
+    private static void ConfigureDailySelection(ModelBuilder modelBuilder)
+    {
+        var entity = modelBuilder.Entity<DailySelection>();
+
+        entity.ToTable("DailySelections", table =>
+            table.HasCheckConstraint("CK_DailySelection_Slot", "[Slot] >= 1 AND [Slot] <= 3"));
+        entity.Property(selection => selection.Date).IsRequired();
+        entity.HasIndex(selection => new { selection.Date, selection.Slot }).IsUnique();
+        entity.HasIndex(selection => new { selection.Date, selection.ChallengeId }).IsUnique();
+
+        entity.HasOne(selection => selection.Challenge)
+            .WithMany()
+            .HasForeignKey(selection => selection.ChallengeId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+
+    private static void ConfigureDailyCompletion(ModelBuilder modelBuilder)
+    {
+        var entity = modelBuilder.Entity<DailyCompletion>();
+
+        entity.ToTable("DailyCompletions");
+        entity.Property(completion => completion.Date).IsRequired();
+        entity.Property(completion => completion.CompletedAt).IsRequired();
+        entity.HasIndex(completion => new { completion.UserId, completion.Date, completion.ChallengeId }).IsUnique();
+
+        entity.HasOne(completion => completion.User)
+            .WithMany()
+            .HasForeignKey(completion => completion.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasOne(completion => completion.Challenge)
+            .WithMany()
+            .HasForeignKey(completion => completion.ChallengeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasOne(completion => completion.Attempt)
+            .WithMany()
+            .HasForeignKey(completion => completion.AttemptId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

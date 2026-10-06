@@ -18,6 +18,8 @@ public class AdminChallengeListItemDto
     public int Points { get; set; }
 
     public bool IsActive { get; set; }
+
+    public bool IsInDailyPool { get; set; }
 }
 
 public class AdminChallengeDto
@@ -45,6 +47,8 @@ public class AdminChallengeDto
     public int Points { get; set; }
 
     public bool IsActive { get; set; }
+
+    public bool IsInDailyPool { get; set; }
 
     public List<AdminOptionDto> Options { get; set; } = [];
 }
@@ -94,6 +98,8 @@ public class AdminChallengeWriteDto
     public int Points { get; set; }
 
     public bool IsActive { get; set; } = true;
+
+    public bool IsInDailyPool { get; set; }
 
     public List<AdminOptionWriteDto> Options { get; set; } = [];
 }

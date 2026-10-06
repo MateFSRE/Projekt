@@ -26,6 +26,8 @@ public class AdminScoreService
         }
 
         await using var transaction = await _db.Database.BeginTransactionAsync(cancellationToken);
+        await _db.DailyCompletions.Where(completion => completion.UserId == user.Id).ExecuteDeleteAsync(cancellationToken);
+        await _db.UserBadges.Where(badge => badge.UserId == user.Id).ExecuteDeleteAsync(cancellationToken);
         var removed = await _db.Attempts
             .Where(attempt => attempt.UserId == user.Id)
             .ExecuteDeleteAsync(cancellationToken);
@@ -42,6 +44,8 @@ public class AdminScoreService
     public async Task<MessageDto> ResetAllAsync(CancellationToken cancellationToken)
     {
         await using var transaction = await _db.Database.BeginTransactionAsync(cancellationToken);
+        await _db.DailyCompletions.ExecuteDeleteAsync(cancellationToken);
+        await _db.UserBadges.ExecuteDeleteAsync(cancellationToken);
         var removed = await _db.Attempts.ExecuteDeleteAsync(cancellationToken);
         var users = await _db.Users.ToListAsync(cancellationToken);
         foreach (var user in users)

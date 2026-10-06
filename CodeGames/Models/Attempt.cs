@@ -18,6 +18,9 @@ public class Attempt
 
     public DateTime CreatedAt { get; set; }
 
+    // Pokušaj iz dnevnog izazova ne zatvara zadatak u običnoj igri.
+    public bool IsDaily { get; set; }
+
     // Pokušaj pripada točno jednom korisniku.
     public User User { get; set; } = null!;
 

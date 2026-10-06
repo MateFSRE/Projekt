@@ -44,6 +44,9 @@ namespace CodeGames.Data.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDaily")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PointsAwarded")
                         .HasColumnType("int");
 
@@ -94,6 +97,9 @@ namespace CodeGames.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsInDailyPool")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -133,6 +139,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Varijable x i y imaju vrijednosti 2 i 3. print ispisuje njihov zbroj, a to je 5.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 10,
                             Question = "Što program ispisuje?",
@@ -147,6 +154,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Operator * uz tekst ponavlja taj tekst onoliko puta koliki je broj. \"Ana\" * 2 daje AnaAna.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 20,
                             Question = "Što program ispisuje?",
@@ -161,6 +169,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Indeks 0 je prvi element (1), a indeks -1 je zadnji (3). Njihov zbroj je 4.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 30,
                             Question = "Što program ispisuje?",
@@ -175,6 +184,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "len broji znakove. Riječ \"kod\" ima tri znaka, pa je ispis 3.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 10,
                             Question = "Što se ispisuje?",
@@ -189,6 +199,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Funkcija množi broj samim sobom. 4 * 4 je 16.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 20,
                             Question = "Što vraća poziv kvadrat(4)?",
@@ -203,6 +214,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "b = a ne kopira listu. Oba imena pokazuju na istu listu, pa append mijenja i a.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 30,
                             Question = "Što lista a sadrži nakon append?",
@@ -217,6 +229,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Jedan znak = je dodjela i ne smije stajati u uvjetu. Usporedba jednakosti u Pythonu piše se s ==.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 10,
                             Question = "Koji redak ispravlja grešku u uvjetu?",
@@ -231,6 +244,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Lista ima indekse 0, 1 i 2. Indeks 3 ne postoji. Zadnji element je na indeksu 2.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 20,
                             Question = "Koji redak ispisuje zadnji element bez greške?",
@@ -245,6 +259,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Zaglavlje funkcije u Pythonu mora završiti dvotočkom. Bez nje interpreter prijavi sintaksnu grešku.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "Python",
                             Points = 30,
                             Question = "Koji redak ispravno započinje funkciju?",
@@ -259,6 +274,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "a i b su brojevi. Operator + ih zbraja, a console.log ispisuje 5.",
                             IsActive = true,
+                            IsInDailyPool = true,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Što program ispisuje?",
@@ -273,6 +289,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Kad je jedan operand tekst, + ne zbraja nego spaja znakove. Broj 1 postaje znak \"1\", pa je rezultat 51.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 20,
                             Question = "Što program ispisuje?",
@@ -287,6 +304,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "U JavaScriptu su cijeli i decimalni brojevi tipa number. typeof za 10 vraća \"number\".",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Što vraća typeof x?",
@@ -301,6 +319,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "b = a ne stvara novi niz. push dodaje 3 u isti niz, pa se promjena vidi i kroz a.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 30,
                             Question = "Što niz a sadrži nakon push?",
@@ -315,6 +334,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "JavaScript razlikuje velika i mala slova. Varijabla se zove ime, a Ime nije definirana.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 20,
                             Question = "Koji redak ispravlja grešku u imenu varijable?",
@@ -329,6 +349,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "const se ne smije ponovno dodijeliti. let drži broj koji se kasnije može promijeniti.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 30,
                             Question = "Koja izmjena dozvoljava novu vrijednost n?",
@@ -344,6 +365,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "U uvjetu stoji jedan znak =, a to je dodjela. Usporedba u Pythonu piše se s ==.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -359,6 +381,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Lista ima indekse 0, 1 i 2. Indeks 3 ne postoji, pa zadnja linija puca.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -374,6 +397,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Petlja prolazi kroz svaki broj i zbraja ga. Indeksi su ispravni i nema sintaksne greške.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -389,6 +413,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Funkcija vraća n * n, poziv kvadrat(3) daje 9, a print ispisuje taj rezultat.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -404,6 +429,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "n je deklariran s const. Treća linija ga pokušava ponovo dodijeliti, a to JavaScript ne dozvoljava.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -419,6 +445,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "U uvjetu je dodjela =, ne usporedba. Uvjet treba biti bod === 10.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -434,6 +461,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "a i b su brojevi, + ih zbraja, a console.log ispisuje zbroj. Nema greške.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -449,6 +477,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Funkcija vraća n * 2. duplo(4) je 8 i console.log ispisuje tu vrijednost.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Ima li ovaj kod bug?",
@@ -464,6 +493,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "for prolazi kroz listu, a in veže svaki element na ime broj.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -479,6 +509,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "if pokreće granu kad je uvjet točan. else hvata sve ostalo.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -494,6 +525,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "def započinje funkciju. return šalje rezultat n * n pozivatelju.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -509,6 +541,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "append dodaje na kraj liste. Prvi element i dalje je na indeksu 0.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -524,6 +557,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "for ... of prolazi kroz vrijednosti niza. of daje element, ne indeks.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -539,6 +573,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "function i return definiraju zbroj. push dodaje 3 na kraj niza.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 20,
                             Question = "Dopuni rupe.",
@@ -554,6 +589,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Lista se prvo stvori. Petlja ide preko nje, a print je uvučen jer pripada tijelu petlje.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 10,
                             Question = "Ispiši brojeve od 1 do 3.",
@@ -569,6 +605,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "a i b smiju zamijeniti mjesta. Zbroj dolazi tek kad oba postoje, a ispis je zadnji.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 10,
                             Question = "Ispiši zbroj dva broja.",
@@ -584,6 +621,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "bod mora postojati prije uvjeta. print u grani if i print u grani else uvučeni su za četiri razmaka.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 20,
                             Question = "Ispiši prolaz ako je bod barem 10, inače pad.",
@@ -599,6 +637,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Duljina niza smije se uzeti prije petlje ili poslije nje. Ispis ukupno mora ostati na kraju.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 20,
                             Question = "Ispiši svaki broj iz niza i koliko ih ima.",
@@ -614,6 +653,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Tijelo funkcije je uvučeno. Poziv dolazi nakon definicije i nakon što broj postoji. Natpis ide prije vrijednosti.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 30,
                             Question = "Definiraj kvadrat i ispiši rezultat za broj 4.",
@@ -629,6 +669,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Niz i početni zbroj smiju zamijeniti mjesta. Petlja mora doći nakon oba, a ispis nakon petlje. Uvlake prate if unutar for.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 30,
                             Question = "Zbroji parne brojeve i ispiši zbroj.",
@@ -644,6 +685,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Petlja se vrti dok je i manji ili jednak 2. x raste za trenutni i, zatim se i poveća za 1. Na kraju je x 3, a i 3.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 30,
                             Question = "Upiši vrijednosti varijabli na traženim koracima.",
@@ -659,6 +701,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "temp čuva staru vrijednost a. Zatim a preuzima b, a b vraća spremljenu vrijednost iz temp. Na kraju je a 5, a b 2.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 30,
                             Question = "Upiši vrijednosti varijabli na traženim koracima.",
@@ -674,6 +717,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "for prvo veže broj na 2, pa s postaje 2. Drugi prolaz veže broj na 4 i s postaje 6.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Python",
                             Points = 30,
                             Question = "Upiši vrijednosti varijabli na traženim koracima.",
@@ -689,6 +733,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "bod je 8, pa uvjet bod >= 10 nije istinit. Grana if se preskače. else postavlja ocjena na pad.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "JavaScript",
                             Points = 30,
                             Question = "Upiši vrijednosti varijabli na traženim koracima.",
@@ -704,6 +749,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Tri puta naprijed vode robota od lijevog ruba do cilja. Zvjezdica je na tom putu i donosi dodatne bodove.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 10,
                             Question = "Dovedi robota do cilja.",
@@ -719,6 +765,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 1,
                             Explanation = "Idi desno do kraja reda, skreni desno i spusti se do donjeg desnog polja. Obje zvjezdice leže na tom putu.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 10,
                             Question = "Dovedi robota do cilja.",
@@ -734,6 +781,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Srednji stupac je zatvoren osim donjeg reda. Robot mora sići, proći ispod zida i popeti se do cilja. Zvjezdice su u donjem redu.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 20,
                             Question = "Dovedi robota do cilja.",
@@ -749,6 +797,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 2,
                             Explanation = "Do cilja trebaju tri koraka naprijed, a smiješ samo dva bloka. Ponovi jedan korak tri puta. Zvjezdica je na sredini puta.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 20,
                             Question = "Dovedi robota do cilja.",
@@ -764,6 +813,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Tri naprijed, skretanje, dva naprijed, skretanje, tri naprijed. Dvije zvjezdice leže na tom krugu.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 30,
                             Question = "Dovedi robota do cilja.",
@@ -779,6 +829,7 @@ namespace CodeGames.Data.Migrations
                             Difficulty = 3,
                             Explanation = "Zid tjera robota u donji red. Obje zvjezdice leže na tom putu, a petlja drži program kratkim.",
                             IsActive = true,
+                            IsInDailyPool = false,
                             Language = "Blokovi",
                             Points = 30,
                             Question = "Dovedi robota do cilja.",
@@ -1095,6 +1146,77 @@ namespace CodeGames.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CodeGames.Models.DailyCompletion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AttemptId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("PointsAwarded")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttemptId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.HasIndex("UserId", "Date", "ChallengeId")
+                        .IsUnique();
+
+                    b.ToTable("DailyCompletions", (string)null);
+                });
+
+            modelBuilder.Entity("CodeGames.Models.DailySelection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Slot")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.HasIndex("Date", "ChallengeId")
+                        .IsUnique();
+
+                    b.HasIndex("Date", "Slot")
+                        .IsUnique();
+
+                    b.ToTable("DailySelections", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_DailySelection_Slot", "[Slot] >= 1 AND [Slot] <= 3");
+                        });
+                });
+
             modelBuilder.Entity("CodeGames.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -1155,6 +1277,36 @@ namespace CodeGames.Data.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("CodeGames.Models.UserBadge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AwardedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BadgeKey")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<int>("Tier")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "BadgeKey")
+                        .IsUnique();
+
+                    b.ToTable("UserBadges", (string)null);
+                });
+
             modelBuilder.Entity("CodeGames.Models.Attempt", b =>
                 {
                     b.HasOne("CodeGames.Models.Challenge", "Challenge")
@@ -1183,6 +1335,55 @@ namespace CodeGames.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Challenge");
+                });
+
+            modelBuilder.Entity("CodeGames.Models.DailyCompletion", b =>
+                {
+                    b.HasOne("CodeGames.Models.Attempt", "Attempt")
+                        .WithMany()
+                        .HasForeignKey("AttemptId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodeGames.Models.Challenge", "Challenge")
+                        .WithMany()
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodeGames.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Attempt");
+
+                    b.Navigation("Challenge");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CodeGames.Models.DailySelection", b =>
+                {
+                    b.HasOne("CodeGames.Models.Challenge", "Challenge")
+                        .WithMany()
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Challenge");
+                });
+
+            modelBuilder.Entity("CodeGames.Models.UserBadge", b =>
+                {
+                    b.HasOne("CodeGames.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeGames.Models.Challenge", b =>

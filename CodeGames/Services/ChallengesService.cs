@@ -14,15 +14,18 @@ public class ChallengesService
 
     private readonly AppDbContext _db;
     private readonly GamificationService _gamification;
+    private readonly TimeProvider _clock;
     private readonly IReadOnlyDictionary<ChallengeType, IChallengeHandler> _handlers;
 
     public ChallengesService(
         AppDbContext db,
         GamificationService gamification,
+        TimeProvider clock,
         IEnumerable<IChallengeHandler> handlers)
     {
         _db = db;
         _gamification = gamification;
+        _clock = clock;
         _handlers = handlers.ToDictionary(handler => handler.Type);
     }
 
@@ -31,9 +34,14 @@ public class ChallengesService
         IReadOnlyCollection<ChallengeType> types,
         CancellationToken cancellationToken)
     {
+        var (start, end) = TodayWindow();
         var solvedIds = await _db.Attempts
             .AsNoTracking()
-            .Where(attempt => attempt.UserId == userId && attempt.IsCorrect)
+            .Where(attempt => attempt.UserId == userId
+                && attempt.IsCorrect
+                && !attempt.IsDaily
+                && attempt.CreatedAt >= start
+                && attempt.CreatedAt < end)
             .Select(attempt => attempt.ChallengeId)
             .Distinct()
             .ToListAsync(cancellationToken);
@@ -55,8 +63,8 @@ public class ChallengesService
         if (remaining.Count == 0)
         {
             var message = types.Count > 0
-                ? "Nema više zadataka u odabranim igrama."
-                : "Nema više zadataka. Sve dostupne igre su već točno riješene.";
+                ? "Nema više zadataka u odabranim igrama. Sutra se ponovno otvaraju."
+                : "Nema više zadataka za danas. Sutra se ponovno otvaraju.";
             throw new AppException(StatusCodes.Status404NotFound, message);
         }
 
@@ -121,13 +129,18 @@ public class ChallengesService
             throw new AppException(StatusCodes.Status401Unauthorized, "Niste prijavljeni.");
         }
 
+        var (start, end) = TodayWindow();
         var previous = await _db.Attempts
-            .Where(attempt => attempt.UserId == userId && attempt.ChallengeId == challenge.Id)
+            .Where(attempt => attempt.UserId == userId
+                && attempt.ChallengeId == challenge.Id
+                && !attempt.IsDaily
+                && attempt.CreatedAt >= start
+                && attempt.CreatedAt < end)
             .Select(attempt => new { attempt.IsCorrect, attempt.ScoreFraction })
             .ToListAsync(cancellationToken);
 
         var correctFlags = await _db.Attempts
-            .Where(attempt => attempt.UserId == userId)
+            .Where(attempt => attempt.UserId == userId && !attempt.IsDaily)
             .OrderByDescending(attempt => attempt.CreatedAt)
             .ThenByDescending(attempt => attempt.Id)
             .Select(attempt => attempt.IsCorrect)
@@ -144,7 +157,8 @@ public class ChallengesService
             consecutive++;
         }
 
-        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var today = DateOnly.FromDateTime(_clock.GetUtcNow().UtcDateTime);
+        var now = _clock.GetUtcNow().UtcDateTime;
         var previousLevel = user.Level;
         var previousBestStreak = user.BestStreak;
         var outcome = _gamification.Apply(new GamificationInput
@@ -182,7 +196,7 @@ public class ChallengesService
             IsCorrect = evaluation.IsCorrect,
             ScoreFraction = fraction,
             PointsAwarded = outcome.PointsAwarded,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = now
         });
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -206,6 +220,13 @@ public class ChallengesService
                 previousBestStreak,
                 outcome.BestStreak)
         };
+    }
+
+    private (DateTime Start, DateTime End) TodayWindow()
+    {
+        var today = DateOnly.FromDateTime(_clock.GetUtcNow().UtcDateTime);
+        var start = today.ToDateTime(TimeOnly.MinValue);
+        return (start, start.AddDays(1));
     }
 
     private static double ClampFraction(double fraction)

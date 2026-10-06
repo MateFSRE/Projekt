@@ -13,6 +13,9 @@ public sealed record GamificationInput
 
     public bool AlreadySolved { get; init; }
 
+    // Dnevni izazov daje pune bodove zadatka, bez niza točnih odgovora.
+    public bool AwardFullPoints { get; init; }
+
     public double BestPreviousFraction { get; init; }
 
     // Koliko je zadnjih pokušaja zaredom bilo točno, prije ovog.

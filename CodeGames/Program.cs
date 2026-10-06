@@ -53,7 +53,26 @@ builder.Services.AddScoped<IChallengeHandler, ReorderCodeHandler>();
 builder.Services.AddScoped<IChallengeHandler, TraceExecutionHandler>();
 builder.Services.AddScoped<IChallengeHandler, RobotMazeHandler>();
 builder.Services.AddSingleton<GamificationService>();
+builder.Services.AddSingleton<TimeProvider>(services =>
+{
+    var environment = services.GetRequiredService<IHostEnvironment>();
+    var configured = services.GetRequiredService<IConfiguration>()["Daily:UtcNow"];
+    if (environment.IsDevelopment()
+        && DateTimeOffset.TryParse(
+            configured,
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.RoundtripKind,
+            out var parsed))
+    {
+        return new FixedTimeProvider(parsed);
+    }
+
+    return TimeProvider.System;
+});
 builder.Services.AddScoped<ChallengesService>();
+builder.Services.AddScoped<DailySelectionService>();
+builder.Services.AddScoped<BadgeService>();
+builder.Services.AddScoped<DailyChallengeService>();
 builder.Services.AddScoped<LeaderboardService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<AdminUserService>();

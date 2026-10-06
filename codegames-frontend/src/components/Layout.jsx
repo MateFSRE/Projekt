@@ -1,4 +1,4 @@
-import { Gamepad2, House, LogOut, Shield, Trophy, User } from 'lucide-react'
+import { CalendarDays, Gamepad2, House, LogOut, Shield, Trophy, User } from 'lucide-react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext.jsx'
 
@@ -6,6 +6,7 @@ const links = [
   { to: '/', label: 'Naslovna', icon: House, roles: ['guest', 'User', 'Admin'] },
   { to: '/demo', label: 'Demo', icon: Gamepad2, roles: ['guest', 'User', 'Admin'] },
   { to: '/games', label: 'Igre', icon: Gamepad2, roles: ['User', 'Admin'] },
+  { to: '/daily', label: 'Dnevni izazovi', icon: CalendarDays, roles: ['User', 'Admin'] },
   { to: '/leaderboard', label: 'Rang lista', icon: Trophy, roles: ['guest', 'User', 'Admin'] },
   { to: '/profile', label: 'Profil', icon: User, roles: ['User', 'Admin'] },
   { to: '/admin', label: 'Admin', icon: Shield, roles: ['Admin'] },

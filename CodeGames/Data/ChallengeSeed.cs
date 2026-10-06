@@ -411,6 +411,7 @@ public static class ChallengeSeed
             Explanation = explanation,
             Points = difficulty * 10,
             IsActive = true,
+            IsInDailyPool = id <= 10,
             Options = null!,
             Attempts = null!
         };
